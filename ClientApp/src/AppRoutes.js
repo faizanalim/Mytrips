@@ -2,7 +2,7 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { Trips } from "./components/Trip/Trips";
-
+import { Create } from "./components/Trip/Create";
 const AppRoutes = [
   {
     index: true,
@@ -19,6 +19,10 @@ const AppRoutes = [
   {
     path: '/Trips',
     element: <Trips />
+  },
+  {
+    path: '/Create',
+    element: <Create />
   },
 ];
 
