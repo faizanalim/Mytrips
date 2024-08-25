@@ -1,20 +1,29 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Navigate } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
 export class Trips extends Component
 {
     constructor(props){
         super(props);
-
+        this.onTripUpdate = this.onTripUpdate.bind(this);
         this.state = {
             trips: [],
-            loading: true
+            loading: true,
+            redirectToUpdate: null // Track redirection
         }
     }
 
     componentDidMount(){
         this.populateTripsData();
     }
-
+    onTripUpdate(id){
+      //  const {history} = this.props;
+        console.log("trips: "+ id);
+        this.setState({ redirectToUpdate: '/Update/' + id });
+        //<Navigate to="/update/"id />; 
+      //  history.push('/update/'+id);
+    }
     populateTripsData(){
         axios.get("https://localhost:7055/api/Trips/GetTrips").then(result => {
             const response = result.data;
@@ -42,7 +51,17 @@ export class Trips extends Component
                             <td>{trip.description}</td>
                             <td>{new Date(trip.dateStarted).toLocaleDateString()}</td>
                             <td>{trip.dateCompleted ? new Date(trip.dateCompleted).toLocaleDateString() :  '-' }</td>
-                            <td> - </td>
+                            <td> 
+                            <div className="form-group">
+                                    <button onClick={() => this.onTripUpdate(trip.id)} className="btn btn-success">
+                                        Update
+                                    </button>
+                                    <button  className="btn btn-danger">
+                                        Delete
+                                    </button>
+                                </div>
+
+                            </td>
                         </tr>
                         ))
                     }
@@ -53,7 +72,10 @@ export class Trips extends Component
     }
 
     render(){
-
+        if (this.state.redirectToUpdate) {
+            // Redirect if `redirectToUpdate` is set
+            return <Navigate to={this.state.redirectToUpdate} />;
+        }
         let content = this.state.loading ? (
             <p>
                 <em>Loading...</em>
@@ -71,3 +93,4 @@ export class Trips extends Component
         );
     }
 }
+//export default withRouter(Trips);
