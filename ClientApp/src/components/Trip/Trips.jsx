@@ -21,6 +21,7 @@ export class Trips extends Component
       //  const {history} = this.props;
         console.log("trips: "+ id);
         this.setState({ redirectToUpdate: '/Update/' + id });
+       
         //<Navigate to="/update/"id />; 
       //  history.push('/update/'+id);
     }
